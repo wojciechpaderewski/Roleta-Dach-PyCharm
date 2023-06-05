@@ -5,6 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26ea3e2-334b-4bf4-bcfe-8546c26fe4ad" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Roleta-Dach-PyCharm.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/MicroPython.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -19,27 +23,22 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MicroPythonDevices" clearReplOnLaunch="false" />
   <component name="ProjectId" id="2N6kasvJq02fUcFTAswm74L87YM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/wojciechpaderewski/Desktop/Projects/Roleta-Dach-v2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.micropython.configurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/wojtp/Desktop/studia/projekty/Roleta-Dach-PyCharm",
+    "settings.editor.selected.configurable": "com.jetbrains.micropython.configurable"
   }
-}</component>
-  <component name="RunManager" selected="MicroPython.Flash encoder.py">
-    <configuration name="Flash buttons.py" type="MicroPythonConfigurationType" factoryName="MicroPython" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/buttons.py" runReplOnSuccess="no">
-      <module name="Roleta-Dach-v2" />
-      <method v="2">
-        <option name="MicroPython.StopREPL.Before.Run" enabled="true" />
-      </method>
-    </configuration>
+}]]></component>
+  <component name="RunManager" selected="MicroPython.Flash main.py">
     <configuration name="Flash encoder.py" type="MicroPythonConfigurationType" factoryName="MicroPython" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/encoder.py" runReplOnSuccess="no">
       <module name="Roleta-Dach-v2" />
       <method v="2">
@@ -60,6 +59,12 @@
     </configuration>
     <configuration name="Flash servo.py" type="MicroPythonConfigurationType" factoryName="MicroPython" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/servo.py" runReplOnSuccess="no">
       <module name="Roleta-Dach-v2" />
+      <method v="2">
+        <option name="MicroPython.StopREPL.Before.Run" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Flash umqtt" type="MicroPythonConfigurationType" factoryName="MicroPython" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/umqtt" runReplOnSuccess="no">
+      <module name="Roleta-Dach-PyCharm" />
       <method v="2">
         <option name="MicroPython.StopREPL.Before.Run" enabled="true" />
       </method>
@@ -87,11 +92,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="MicroPython.Flash encoder.py" />
+        <item itemvalue="MicroPython.Flash umqtt" />
         <item itemvalue="Python.servo" />
-        <item itemvalue="MicroPython.Flash servo.py" />
-        <item itemvalue="MicroPython.Flash endstop.py" />
-        <item itemvalue="MicroPython.Flash buttons.py" />
       </list>
     </recent_temporary>
   </component>
