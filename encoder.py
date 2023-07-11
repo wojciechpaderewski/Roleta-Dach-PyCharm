@@ -1,4 +1,5 @@
 from machine import Pin
+from time import sleep
 
 pinA = Pin(1, Pin.IN, Pin.PULL_UP)
 pinB = Pin(0, Pin.IN, Pin.PULL_UP)
@@ -8,6 +9,7 @@ pulsesPerRevolution = 1200  # pulses per revolution
 
 position = 0
 distance = 0
+
 
 def A_hendler(pin):
     global position
@@ -42,6 +44,7 @@ def B_hendler(pin):
 def calc_distance():
     global distance
     distance = position * 2 * 3.14 * radius / pulsesPerRevolution
+
 
 def getDistance():
     return distance

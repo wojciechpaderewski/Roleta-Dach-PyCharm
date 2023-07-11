@@ -1,75 +1,101 @@
-import network
-import time
 from machine import Pin
-from umqtt.simple import MQTTClient
+from servo import move_forward, move_backward, stop
+from encoder import getDistance, resetEncoder
+from time import time
 
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect("Moria","Barahir6")
-time.sleep(5)
-print(wlan.isconnected())
+builtin_led = Pin("LED", Pin.OUT)
+maxEncoderValue = 570
 
-sensor = Pin(16, Pin.IN)
+firstClickTime = 0
+secondClickTime = 0
 
-mqtt_server = 'broker.hivemq.com'
-client_id = 'bigles'
-topic_pub = b'TomsHardware'
-topic_msg = b'Movement Detected'
+doubleClickTime = 550
 
-def mqtt_connect():
-    client = MQTTClient(client_id, mqtt_server, keepalive=3600)
-    client.connect()
-    print('Connected to %s MQTT Broker'%(mqtt_server))
-    return client
+doubleClickDetected = False
+detectedButton = 'none'
 
-def reconnect():
-    print('Failed to connect to the MQTT Broker. Reconnecting...')
-    time.sleep(5)
-    machine.reset()
+endstop = Pin(2, Pin.IN, Pin.PULL_UP)
+isDown = False
+isUp = False
 
-try:
-    client = mqtt_connect()
-except OSError as e:
-    reconnect()
+up_button = Pin(4, Pin.IN, Pin.PULL_DOWN)
+down_button = Pin(5, Pin.IN, Pin.PULL_DOWN)
+mode_button = Pin(6, Pin.IN, Pin.PULL_DOWN)
+
+detectDoubleClickState = 0
+
+def milis():
+    return time() * 1000
+
 while True:
-    if sensor.value() == 0:
-        client.publish(topic_pub, topic_msg)
-        time.sleep(3)
+    if not endstop.value():
+        isDown = True
+        resetEncoder()
+    elif endstop.value():
+        isDown = False
+    if getDistance() < maxEncoderValue:
+        isUp = False
+    elif getDistance() > maxEncoderValue:
+        isUp = True
+
+    if up_button.value() and not isUp:
+        move_forward()
+    elif down_button.value() and not isDown:
+        move_backward()
+    elif mode_button.value():
+        resetEncoder()
     else:
-        pass
+        stop()
 
-# from machine import Pin
-# from servo import move_forward, move_backward, stop
-#
-# up_button = Pin(20, Pin.IN, Pin.PULL_DOWN)
-# down_button = Pin(21, Pin.IN, Pin.PULL_DOWN)
-# mode_button = Pin(22, Pin.IN, Pin.PULL_DOWN)
-#
-# hommed = False
-# endstop = Pin(1, Pin.IN, Pin.PULL_UP)
+    if doubleClickDetected and detectedButton == 'up':
+        while getDistance() < maxEncoderValue:
+            if down_button.value() or not endstop.value():
+                stop()
+                break
+            move_forward()
 
-# def endstop_reached(p):
-#     print("Endstop reached")
-#     global hommed
-#     hommed = True
-#
-# endstop.irq(trigger=Pin.IRQ_FALLING, handler=endstop_reached)
-#
-# while True:
-#     if hommed:
-#         # stop()
-#         if endstop.value():
-#             hommed = False
-#             print("Endstop released")
-#     else:
-#         if up_button.value():
-#             print("Up button pressed")
-#             move_forward()
-#         elif down_button.value():
-#             print("Down button pressed")
-#             move_backward()
-#         elif mode_button.value():
-#             print("Mode button pressed")
-#         else:
-#             stop()
-#             pass
+    if doubleClickDetected and detectedButton == 'down':
+        while endstop.value():
+            if up_button.value() or getDistance() > maxEncoderValue:
+                stop()
+                break
+            move_backward()
+
+    if(milis() - firstClickTime > doubleClickTime):
+        detectDoubleClickState = 0
+        doubleClickDetected = False
+
+    if detectDoubleClickState == 0:
+        if up_button.value():
+            firstClickTime = milis()
+            detectDoubleClickState = 1
+            detectedButton = 'up'
+        elif down_button.value():
+            firstClickTime = milis()
+            detectDoubleClickState = 1
+            detectedButton = 'down'
+    elif detectDoubleClickState == 1:
+        if detectedButton == 'up' and not up_button.value():
+            detectDoubleClickState = 2
+        elif detectedButton == 'down' and not down_button.value():
+            detectDoubleClickState = 2
+    elif detectDoubleClickState == 2:
+        if detectedButton == 'up' and up_button.value():
+            secondClickTime = milis()
+            detectDoubleClickState = 3
+        elif detectedButton == 'down' and down_button.value():
+            secondClickTime = milis()
+            detectDoubleClickState = 3
+    elif detectDoubleClickState == 3:
+        if detectedButton == 'up' and not up_button.value():
+            detectDoubleClickState = 0
+            if milis() - firstClickTime < doubleClickTime:
+                doubleClickDetected = True
+            else:
+                doubleClickDetected = False
+        elif detectedButton == 'down' and not down_button.value():
+            detectDoubleClickState = 0
+            if milis() - firstClickTime < doubleClickTime:
+                doubleClickDetected = True
+            else:
+                doubleClickDetected = False
